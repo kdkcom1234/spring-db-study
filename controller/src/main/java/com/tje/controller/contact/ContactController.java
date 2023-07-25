@@ -24,6 +24,9 @@ public class ContactController {
                         .id(2).name("김철수").phone("010-9873-8382")
                         .email("kim@gmail.com").build());
 
-        return new ArrayList<>(map.values());
+        var list = new ArrayList<>(map.values());
+        list.sort((a, b)-> b.getId() - a.getId());
+
+        return list;
     }
 }

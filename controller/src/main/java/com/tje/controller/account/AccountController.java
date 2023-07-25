@@ -38,7 +38,6 @@ import java.util.List;
 // GET .../accounts -> AccountController -> method(GET요청을 처리할 메서드)
 @RequestMapping(value = "/accounts")
 public class AccountController {
-
     List<Account> list = new ArrayList<>();
 
     // @RequestMapping(method = {RequestMethod.GET})
