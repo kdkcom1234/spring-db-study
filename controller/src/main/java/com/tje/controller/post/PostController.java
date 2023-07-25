@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -21,6 +18,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @RequestMapping("/posts")
 public class PostController {
     Map<Integer, Post> map = new ConcurrentHashMap<>();
+
+    // post 목록 화면을 제작 post.html, post.js
+    // fetch api를 사용하여 /posts 주소를 호출한 후
+    // 배열 목록을 div(카드)로 표시한다.
 
 //    -----------------
 //    | 게시자         |
@@ -35,8 +36,20 @@ public class PostController {
 
     @GetMapping
     public List<Post> getPostList() {
-        map.put(1, Post.builder().no(1).title("게시글1").build());
-        map.put(2, Post.builder().no(2).title("게시글2").build());
+        map.put(1, Post.builder()
+                        .no(1)
+                        .creatorName("홍길동")
+                        .title("1Lorem, ipsum dolor.")
+                        .content("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores sunt ab beatae provident? Eius non accusantium vitae dolor ipsa!")
+                        .createdTime(new Date().getTime())
+                        .build());
+        map.put(2, Post.builder()
+                        .no(2)
+                        .creatorName("홍길동")
+                        .title("2Lorem, ipsum dolor.")
+                        .content("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores sunt ab beatae provident? Eius non accusantium vitae dolor ipsa!")
+                        .createdTime(new Date().getTime())
+                        .build());
 
         var list = new ArrayList<>(map.values());
         // 람다식(lambda expression)
