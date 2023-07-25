@@ -22,10 +22,21 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class PostController {
     Map<Integer, Post> map = new ConcurrentHashMap<>();
 
+//    -----------------
+//    | 게시자         |
+//    | ------------- |
+//    | 제목(h3)       |
+//    | 본문(p)        |
+//    |  .....        |
+//    |  .....        |
+//    | ------------- |
+//    | 생성시간       |
+//    -----------------
+
     @GetMapping
     public List<Post> getPostList() {
         map.put(1, Post.builder().no(1).title("게시글1").build());
-        map.put(2, Post.builder().no(2).title("게시글1").build());
+        map.put(2, Post.builder().no(2).title("게시글2").build());
 
         var list = new ArrayList<>(map.values());
         // 람다식(lambda expression)
