@@ -100,8 +100,9 @@ public class ContactController {
         map.put(contact.getEmail(), contact);
         
         // 응답 객체 생성
+        // 실제로 생성된 객체를 응답
         Map<String, Object> res = new HashMap<>();
-        res.put("data", contact);
+        res.put("data", map.get(contact.getEmail()));
         res.put("message", "created");
 
         // HTTP Status Code: 201 Created
