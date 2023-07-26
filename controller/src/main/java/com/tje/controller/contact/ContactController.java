@@ -53,6 +53,12 @@ public class ContactController {
 
     // Server(스프링) @RequestBody를 메서드 매개변수에 넣어주면
     // JSON(문자열) -> Java객체로 변환
+
+    // 백엔드 API 메서드 구조
+//    1. 요청에 데이터에 대해서 검증
+//       -> 잘못된 데이터, 충돌되는 데이터면 400, 409와 같은 응답코드 내보냄
+//    2. 요청 데이터에서 대해서 조회를 하거나 생성/수정/삭제
+//    3. 요청 데이터를 처리후 응답을 줌
     @PostMapping
     public ResponseEntity<Map<String, Object>> addContact(@RequestBody Contact contact) {
         // 클라이언트에서 넘어온 JSON이 객체로 잘 변환됐는지 확인
