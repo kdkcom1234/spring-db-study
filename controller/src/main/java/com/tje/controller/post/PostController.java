@@ -92,7 +92,8 @@ public class PostController {
     // 2. 채번: 번호를 딴다(1 .. 2, 3....)
     //    int no = num.incrementAndGet();
 
-    // 3. 시간값, 게시자이름 설정(set필드명(...))
+    // 3. 번호(no), 시간값(createdTime) 게시자이름(creatorName) 요청 객체에 설정
+    // (set필드명(...))
 
     // 4. 맵에 추가 (서버에서 생성된 값을 설정)
 
