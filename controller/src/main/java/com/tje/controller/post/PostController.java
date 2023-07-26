@@ -41,14 +41,6 @@ public class PostController {
 //    | 생성시간       |
 //    -----------------
 
-//    -- 받는 정보
-//    title, content
-//    -> null 또는 없으면 bad-request 응답
-
-//    -- 서버에 생성
-//    no = num.incrementAndGet();
-//    creatorName = "John Doe"
-//    createdTime = new Date().getTime()
     @GetMapping
     public List<Post> getPostList() {
         // 증가시키고 값 가져오기
@@ -79,6 +71,16 @@ public class PostController {
 
         return list;
     }
+
+
+    //    -- 받는 정보
+//    title, content
+//    -> null 또는 없으면 bad-request 응답
+
+//    -- 서버에 생성
+//    no = num.incrementAndGet();
+//    creatorName = "John Doe"
+//    createdTime = new Date().getTime()
 
     // title, content 필수 속성
     // creatorName: 서버에서 가짜데이터로 넣음
