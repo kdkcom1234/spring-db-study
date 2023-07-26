@@ -2,7 +2,9 @@ package com.tje.controller.post;
 
 
 import com.tje.controller.contact.Contact;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,13 +13,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 // GET /posts
 // 게시글 목록이 JSON으로 나오게
 @RestController
 @RequestMapping("/posts")
 public class PostController {
+    // 동시성을 위한 자료 구조
+    // HashMap -> ConcurrentHashMap
+    // Integer -> AtomicInteger
     Map<Integer, Post> map = new ConcurrentHashMap<>();
+    AtomicInteger num = new AtomicInteger(0);
 
     // post 목록 화면을 제작 post.html, post.js
     // fetch api를 사용하여 /posts 주소를 호출한 후
@@ -36,15 +43,19 @@ public class PostController {
 
     @GetMapping
     public List<Post> getPostList() {
-        map.put(1, Post.builder()
-                        .no(1)
+        // 증가시키고 값 가져오기
+        int no = num.incrementAndGet();
+        map.put(no, Post.builder()
+                        .no(no)
                         .creatorName("홍길동")
                         .title("1Lorem, ipsum dolor.")
                         .content("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores sunt ab beatae provident? Eius non accusantium vitae dolor ipsa!")
                         .createdTime(new Date().getTime())
                         .build());
-        map.put(2, Post.builder()
-                        .no(2)
+
+        no = num.incrementAndGet();
+        map.put(no, Post.builder()
+                        .no(no)
                         .creatorName("홍길동")
                         .title("2Lorem, ipsum dolor.")
                         .content("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores sunt ab beatae provident? Eius non accusantium vitae dolor ipsa!")
@@ -61,4 +72,12 @@ public class PostController {
         return list;
     }
 
+    // title, content 필수 속성
+    // creatorName: 서버에서 가짜데이터로 넣음
+//    @PostMapping
+//    public ResponseEntity<Map<String, Object>> addPost(...) {
+//        // 채번: 번호를 딴다(1 .. 2, 3....)
+//        int no = num.incrementAndGet();
+//        // 맵에 추가
+//    }
 }
