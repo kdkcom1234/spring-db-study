@@ -43,24 +43,24 @@ public class PostController {
 
     @GetMapping
     public List<Post> getPostList() {
-        // 증가시키고 값 가져오기
-        int no = num.incrementAndGet();
-        map.put(no, Post.builder()
-                        .no(no)
-                        .creatorName("홍길동")
-                        .title("1Lorem, ipsum dolor.")
-                        .content("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores sunt ab beatae provident? Eius non accusantium vitae dolor ipsa!")
-                        .createdTime(new Date().getTime())
-                        .build());
-
-        no = num.incrementAndGet();
-        map.put(no, Post.builder()
-                        .no(no)
-                        .creatorName("홍길동")
-                        .title("2Lorem, ipsum dolor.")
-                        .content("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores sunt ab beatae provident? Eius non accusantium vitae dolor ipsa!")
-                        .createdTime(new Date().getTime())
-                        .build());
+//        // 증가시키고 값 가져오기
+//        int no = num.incrementAndGet();
+//        map.put(no, Post.builder()
+//                        .no(no)
+//                        .creatorName("홍길동")
+//                        .title("1Lorem, ipsum dolor.")
+//                        .content("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores sunt ab beatae provident? Eius non accusantium vitae dolor ipsa!")
+//                        .createdTime(new Date().getTime())
+//                        .build());
+//
+//        no = num.incrementAndGet();
+//        map.put(no, Post.builder()
+//                        .no(no)
+//                        .creatorName("홍길동")
+//                        .title("2Lorem, ipsum dolor.")
+//                        .content("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores sunt ab beatae provident? Eius non accusantium vitae dolor ipsa!")
+//                        .createdTime(new Date().getTime())
+//                        .build());
 
         var list = new ArrayList<>(map.values());
         // 람다식(lambda expression)

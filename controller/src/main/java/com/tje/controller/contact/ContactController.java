@@ -18,12 +18,12 @@ public class ContactController {
     // GET /contacts
     @GetMapping
     public List<Contact> getContactList() {
-        map.put("hong@naver.com", Contact.builder()
-                        .name("홍길동").phone("010-1234-5678")
-                        .email("hong@naver.com").build());
-        map.put("kim@gmail.com", Contact.builder()
-                        .name("김철수").phone("010-9873-8382")
-                        .email("kim@gmail.com").build());
+//        map.put("hong@naver.com", Contact.builder()
+//                        .name("홍길동").phone("010-1234-5678")
+//                        .email("hong@naver.com").build());
+//        map.put("kim@gmail.com", Contact.builder()
+//                        .name("김철수").phone("010-9873-8382")
+//                        .email("kim@gmail.com").build());
 
         var list = new ArrayList<>(map.values());
 //        list.sort((a, b)-> b.getId() - a.getId());
