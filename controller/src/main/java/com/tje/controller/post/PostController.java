@@ -86,8 +86,13 @@ public class PostController {
     // creatorName: 서버에서 가짜데이터로 넣음
 //    @PostMapping
 //    public ResponseEntity<Map<String, Object>> addPost(...) {
+//      // 입력값 검증
+//
 //        // 채번: 번호를 딴다(1 .. 2, 3....)
 //        int no = num.incrementAndGet();
-//        // 맵에 추가
+//
+//        // 맵에 추가 (서버에서 생성된 값을 설정)
+
+//        // 생성된 객체를 맵에서 찾아서 반환
 //    }
 }
