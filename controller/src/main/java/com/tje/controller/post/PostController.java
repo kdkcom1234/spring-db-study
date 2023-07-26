@@ -86,13 +86,16 @@ public class PostController {
     // creatorName: 서버에서 가짜데이터로 넣음
 //    @PostMapping
 //    public ResponseEntity<Map<String, Object>> addPost(...) {
-//      // 입력값 검증
-//
-//        // 채번: 번호를 딴다(1 .. 2, 3....)
-//        int no = num.incrementAndGet();
-//
-//        // 맵에 추가 (서버에서 생성된 값을 설정)
+    // 1. 입력값 검증(title, content)
+    //  -> 입력값 오류(빈 값)가 있으면 400 에러 띄움
 
-//        // 생성된 객체를 맵에서 찾아서 반환
+    // 2. 채번: 번호를 딴다(1 .. 2, 3....)
+    //    int no = num.incrementAndGet();
+
+    // 3. 시간값, 게시자이름 설정(set필드명(...))
+
+    // 4. 맵에 추가 (서버에서 생성된 값을 설정)
+
+    // 5. 생성된 객체를 맵에서 찾아서 반환
 //    }
 }
