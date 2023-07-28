@@ -14,4 +14,6 @@ public class Contact {
     private String email;
     private String name;
     private String phone;
+    // 파일을 base64 data-url 문자열로 저장
+    private String image;
 }
