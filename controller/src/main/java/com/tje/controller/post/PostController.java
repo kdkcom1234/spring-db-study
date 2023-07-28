@@ -43,7 +43,7 @@ public class PostController {
     @GetMapping
     public List<Post> getPostList() {
 //        // 증가시키고 값 가져오기
-//        int no = num.incrementAndGet();
+//        long no = num.incrementAndGet();
 //        map.put(no, Post.builder()
 //                        .no(no)
 //                        .creatorName("홍길동")
@@ -95,7 +95,7 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-//     2. 채번: 번호를 딴다(1 .. 2, 3....)
+//     2. 채번1 .. 2, 3....)
         long no = num.incrementAndGet();
         post.setNo(no);
 
