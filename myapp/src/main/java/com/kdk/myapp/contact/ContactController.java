@@ -87,7 +87,7 @@ public class B {
 //                repo.findAll(Sort.by("name").ascending());
 
         // Native-Query를 이용한 방법
-        List<Contact> list = repo.getContactsSortByName();
+        List<Contact> list = repo.findContactsSortByName();
 
         return list;
     }
@@ -191,5 +191,10 @@ public class B {
         // 레코드(리소스-데이터베이스의파일일부분) 삭제
         repo.deleteById(email);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping(value = "/{email}")
+    public Contact getContact(@PathVariable String email) {
+        return repo.findContactByEmail(email);
     }
 }

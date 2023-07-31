@@ -10,6 +10,13 @@ import java.util.List;
 // JpaRepository<Contact, String>
 // <엔티티클래스, 엔티티의키타입>
 public interface ContactRepository extends JpaRepository<Contact, String> {
-    @Query(value = "select * from contact order by name asc", nativeQuery = true)
-    List<Contact> getContactsSortByName();
+    @Query(value = "select * " +
+            "from contact " +
+            "order by name asc ", nativeQuery = true)
+    List<Contact> findContactsSortByName();
+
+    @Query(value = "select * " +
+            "from contact " +
+            "where email = :email ", nativeQuery = true)
+    Contact findContactByEmail(String email);
 }
