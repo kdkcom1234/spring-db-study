@@ -82,8 +82,13 @@ public class B {
         // repo.findAll(Sort sort); 정렬하여 전체 테이블 목록 조회
         // SELECT * FROM 테이블 ORDER BY 정렬컬럼, 정렬컬럼....
 
-        List<Contact> list =
-                repo.findAll(Sort.by("name").ascending());
+        // JPA Respository Sort 인터페이스를 사용
+//        List<Contact> list =
+//                repo.findAll(Sort.by("name").ascending());
+
+        // Native-Query를 이용한 방법
+        List<Contact> list = repo.getContactsSortByName();
+
         return list;
     }
 

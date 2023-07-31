@@ -3,6 +3,7 @@ package com.kdk.myapp.contact;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,7 +44,11 @@ public class Contact {
     private String phone;
 
     // 컬럼의 데이터 타입을 변경
-    @Column(columnDefinition = "LONGTEXT")
+//     @Column(columnDefinition = "LONGTEXT") // MySQL 전용 방법
+
+//   컬럼크기 1024byte * 1024 = 1mb * 20 = 20mb
+    @Column(length = 1024 * 1024 * 20) // MySQL에서는 longtext로 바뀜
     // 파일을 base64 data-url 문자열로 저장
     private String image;
+
 }

@@ -3,11 +3,11 @@
 -- : 데이터베이스 객체를 사용할 수 있는 공간
 -- : 객체 - 테이블, 뷰, 인덱스, 저장프로시저 ...
 /*
-데이터베이스 엔진: MySQL
-데이터베이스(스키마): myapp
-CREATE SCHEMA myapp;
-CREATE DATABASE myapp;
-MySQL에서는 스키마와 데이터베이스가 동일한 개념이다.
+- 데이터베이스 엔진: MySQL
+- 데이터베이스(스키마): myapp
+- CREATE SCHEMA myapp;
+- CREATE DATABASE myapp;
+- MySQL에서는 스키마와 데이터베이스가 동일한 개념이다.
 */
 use myapp;
 -- 테이블: 데이터를 저장할 수 있는 기본적인 공간
@@ -26,7 +26,7 @@ create table contact (
     -- varchar: variable charactor
     -- 가변문자열, 255byte까지 넣을 수 있음.
 	email varchar(255) not null, 
-    image varchar(255), 
+    image longtext, 
     name varchar(255) not null, 
     phone varchar(255) not null,
     primary key (email)
@@ -72,4 +72,38 @@ select * from contact order by name;
 -- index(목차) 트리를 탐색하여 데이터까지 찾아감
 
 -- PK 값으로 1건만 찾아옴
+-- where 조건식
+-- where 컬럼명 = '컬럼값'
 select * from contact where email = 'hong@gmail';
+select * from contact;
+
+-- 조건에 맞는 레코드 삭제
+-- where 절의 조건식에는 PK컬럼 기준으로 나오는게 좋음.
+-- 실수로 불필요한 레코드가 지워지는 것을 방지할 수 있다.
+delete from contact where email='john@gmail.com'; 
+-- delete from contact where name='john doe';
+
+-- 테이블의 데이터 전체 삭제
+-- 테이블 구조를 재생성(DDL)
+-- DML: insert, delete
+-- DML: Data Mainpulation(조작) Language
+-- truncate는 transaction 로그를 쌓지 않음(복구 불가)
+truncate table contact;
+
+
+
+create table post (
+	no bigint not null auto_increment, 
+    content varchar(255), 
+    created_time bigint not null, 
+    creator_name varchar(255), 
+    title varchar(255), 
+    primary key (no)
+) engine=InnoDB;
+
+insert into post (created_time, title) value(2, "제목");
+select * from post;
+delete from post where no = 2;
+
+
+
