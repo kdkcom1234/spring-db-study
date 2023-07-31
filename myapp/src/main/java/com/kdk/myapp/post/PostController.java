@@ -91,6 +91,8 @@ public class PostController {
         }
 
 //     2. 채번1 .. 2, 3....)
+        // 데이터베이스의 auto_increment를 사용할 것이므로
+        // 아래 2줄은 필요없게 된다. AtomicLong 필요없음.
         long no = num.incrementAndGet();
         post.setNo(no);
 

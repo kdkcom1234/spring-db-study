@@ -20,7 +20,7 @@ public class ContactController {
     // 동시처리에 대한 지원을 해주는 자료구조
     // 여러명의 유저들이 같은 데이터를 접근할 수 있음.
     // 데이터베이스는 기본적으로 동시성에 대한 구현이 있음.
-    Map<String, Contact> map = new ConcurrentHashMap<>();
+//    Map<String, Contact> map = new ConcurrentHashMap<>();
 
     // 싱글턴: 첫 실행시점 객체가 1번 생성됨. 이후 부터는 생성된 객체를 재사용
     // static: JVM 실행 시점에 객체를 생성
@@ -114,7 +114,8 @@ public class B {
         // 이메일 중복 검증
         // 409: conflict
 
-        if(contact.getEmail() != null && map.get(contact.getEmail()) != null) {
+        if(contact.getEmail() != null && repo.findById(contact.getEmail()).isPresent()) {
+//        if(contact.getEmail() != null && map.get(contact.getEmail()) != null) {
             // 맵에 해당 이메일이 있음
             // 이미 있는 데이터를 클라이언트(브라우저) 보냈거나
             // 클라이언트에서 중복 데이터를 보냈거나..
@@ -125,18 +126,40 @@ public class B {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(res);
         }
 
-        // 맵에 객체 추가
-        map.put(contact.getEmail(), contact);
+//        // 맵에 객체 추가
+//        map.put(contact.getEmail(), contact);
 
-        // 응답 객체 생성
-        // 실제로 생성된 객체를 응답
-        Map<String, Object> res = new HashMap<>();
-        res.put("data", map.get(contact.getEmail()));
-        res.put("message", "created");
+        // 테이블에 레코드 추가
+        // key값이 테이블에 이미 있으면 update
+        // 없으면 insert 구문이 실행됨.
+        repo.save(contact);
 
-        // HTTP Status Code: 201 Created
-        // 리소스가 정상적으로 생성되었음.
-        return ResponseEntity.status(HttpStatus.CREATED).body(res);
+//        // 응답 객체 생성
+//        // 실제로 생성된 객체를 응답
+//        Map<String, Object> res = new HashMap<>();
+//        res.put("data", map.get(contact.getEmail()));
+//        res.put("message", "created");
+
+        // 응답 객체 생성(ResponseEntity)
+        // 상태코드, 데이터, 메시지
+        // 실제로 생성된 레코드(row)를 응답
+
+        // repo.findById(PK값);
+        // Optional은 null이 될 수 없음.
+        Optional<Contact> savedContact =
+                repo.findById(contact.getEmail());
+        // 레코드가 존재하는지 여부..
+        if(savedContact.isPresent()) {
+            Map<String, Object> res = new HashMap<>();
+            res.put("data", savedContact);
+            res.put("message", "created");
+
+            // HTTP Status Code: 201 Created
+            // 리소스가 정상적으로 생성되었음.
+            return ResponseEntity.status(HttpStatus.CREATED).body(res);
+        }
+
+        return ResponseEntity.ok().build();
     }
 
 //    DELETE /contacts/{email}
@@ -148,15 +171,20 @@ public class B {
         System.out.println(email);
 
         // 해당 키(key)의 데이터가 없으면
-        if(map.get(email) == null) {
+//        if(map.get(email) == null) {
+
+        // PK값으로 레코드로 1건 조회해서 없으면
+        if(!repo.findById(email).isPresent()){
             // 404: NOT FOUND, 해당 경로에 리소스가 없다.
             // DELETE /contacts/kdkcom@naver.com
             // Response Status Code : 404
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        // 객체(리소스) 삭제
-        map.remove(email);
+//        // 객체(리소스-서버의램) 삭제
+//        map.remove(email);
+        // 레코드(리소스-데이터베이스의파일일부분) 삭제
+        repo.deleteById(email);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
