@@ -105,5 +105,5 @@ insert into post (created_time, title) value(2, "제목");
 select * from post;
 delete from post where no = 2;
 
-
-
+select * from contact order by name asc;
+select * from contact where email = 'john@hotmail.com';

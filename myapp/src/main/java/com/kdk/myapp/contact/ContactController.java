@@ -139,7 +139,9 @@ public class B {
         // 테이블에 레코드 추가
         // key값이 테이블에 이미 있으면 update
         // 없으면 insert 구문이 실행됨.
-        repo.save(contact);
+
+        // 생성된 객체를 반환
+        Contact savedContact = repo.save(contact);
 
 //        // 응답 객체 생성
 //        // 실제로 생성된 객체를 응답
@@ -159,11 +161,11 @@ public class B {
 //                repo.findById(contact.getEmail());
 
         // Native Query를 이용하여 사용
-        Optional<Contact> savedContact =
-                repo.findContactByEmail(contact.getEmail());
+//        Optional<Contact> savedContact =
+//                repo.findContactByEmail(contact.getEmail());
         
-        // 레코드가 존재하는지 여부..
-        if(savedContact.isPresent()) {
+        // 생성된 레코드가 존재하는지 여부..
+        if(savedContact != null) {
             Map<String, Object> res = new HashMap<>();
             res.put("data", savedContact);
             res.put("message", "created");
