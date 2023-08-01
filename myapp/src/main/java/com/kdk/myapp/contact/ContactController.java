@@ -14,11 +14,6 @@ import java.util.function.Function;
 @RestController
 @RequestMapping(value = "/contacts")
 public class ContactController {
-    // 동시처리에 대한 지원을 해주는 자료구조
-    // 여러명의 유저들이 같은 데이터를 접근할 수 있음.
-    // 데이터베이스는 기본적으로 동시성에 대한 구현이 있음.
-//    Map<String, Contact> map = new ConcurrentHashMap<>();
-
     // 싱글턴: 첫 실행시점 객체가 1번 생성됨. 이후 부터는 생성된 객체를 재사용
     // static: JVM 실행 시점에 객체를 생성
 
@@ -198,5 +193,51 @@ public class B {
         // 레코드(리소스-데이터베이스의파일일부분) 삭제
         repo.deleteById(email);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    // PUT(전체수정), PATCH(일부수정)
+    // PUT /hong@gmail.com
+    // {"name":"길동", "phone":"010.."}
+
+    /*
+    @Data
+    class ContactModifyRequest {
+       private String name;
+       private String phone;
+    }
+     */
+    @PutMapping(value = "/{email}")
+    public ResponseEntity modifyContact
+            (@PathVariable String email,
+             @RequestBody ContactModifyRequest contact) {
+        System.out.println(email);
+        System.out.println(contact);
+        
+        // 1. 키값으로 조회해옴
+        Optional<Contact> findedContact = repo.findById(email);
+        
+        // 2. 해당 레코드가 있는지 확인
+        if(!findedContact.isPresent()){
+            // 404: NOT FOUND, 해당 경로에 리소스가 없다.
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        
+        // 존재하는 레코드(키값, @Id값이 존재)
+        Contact toModifyContact = findedContact.get();
+        // 3. 조회해온 레코드에 필드값을 수정
+        // 매개변수에 name값이 있으면 수정
+        if(contact.getName() != null && !contact.getName().isEmpty()) {
+            toModifyContact.setName(contact.getName());
+        }
+        // 매개변수에 phone값이 있으면 수정
+        if(contact.getPhone() != null && !contact.getPhone().isEmpty()) {
+            toModifyContact.setPhone(contact.getPhone());
+        }
+        
+        // (@Id 값이 존재하므로 update를 시도)
+        repo.save(toModifyContact);
+        
+        // 200 OK 처리
+        return ResponseEntity.ok().build();
     }
 }

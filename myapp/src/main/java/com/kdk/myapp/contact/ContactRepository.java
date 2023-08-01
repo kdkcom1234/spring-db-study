@@ -35,5 +35,4 @@ public interface ContactRepository extends JpaRepository<Contact, String> {
     List<Contact> findAllByOrderByName();
     // 실행되는 쿼리: "select * from contact where email = :email"
     Optional<Contact> findByEmail(String email);
-
 }
