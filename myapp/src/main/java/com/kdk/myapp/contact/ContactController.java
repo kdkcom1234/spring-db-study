@@ -87,7 +87,10 @@ public class B {
 //                repo.findAll(Sort.by("name").ascending());
 
         // Native-Query를 이용한 방법
-        List<Contact> list = repo.findContactsSortByName();
+//        List<Contact> list = repo.findContactsSortByName();
+        
+        // repository query creation을 이용한 방법
+        List<Contact> list = repo.findAllByOrderByName();
 
         return list;
     }

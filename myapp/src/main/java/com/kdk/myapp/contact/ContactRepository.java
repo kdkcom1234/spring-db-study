@@ -27,4 +27,13 @@ public interface ContactRepository extends JpaRepository<Contact, String> {
                     "from contact " +
                     "where email = :email", nativeQuery = true)
     Optional<Contact> findContactByEmail(String email);
+
+    // Query Creation
+    // https://docs.spring.io/spring-data/jpa/docs/1.6.0.RELEASE/reference/html/jpa.repositories.html
+
+    // 실행되는 쿼리: "select * from contact order by name asc"
+    List<Contact> findAllByOrderByName();
+    // 실행되는 쿼리: "select * from contact where email = :email"
+    Optional<Contact> findByEmail(String email);
+
 }
