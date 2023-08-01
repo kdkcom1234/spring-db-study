@@ -119,8 +119,10 @@ public class B {
         // 이메일 중복 검증
         // 409: conflict
 
-        if(contact.getEmail() != null && repo.findById(contact.getEmail()).isPresent()) {
-//        if(contact.getEmail() != null && map.get(contact.getEmail()) != null) {
+        // Native query를 사용
+        if(contact.getEmail()!= null && repo.findContactByEmail(contact.getEmail()).isPresent()) {
+        // JPA Repository의 기본 인터페이스 메서드를 사용
+//        if(contact.getEmail() != null && repo.findById(contact.getEmail()).isPresent()) {
             // 맵에 해당 이메일이 있음
             // 이미 있는 데이터를 클라이언트(브라우저) 보냈거나
             // 클라이언트에서 중복 데이터를 보냈거나..

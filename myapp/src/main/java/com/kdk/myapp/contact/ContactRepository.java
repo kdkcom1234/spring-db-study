@@ -18,13 +18,13 @@ public interface ContactRepository extends JpaRepository<Contact, String> {
 
     //@Query(value="SQL 문법", nativeQuery = true)
     @Query(value = "select * " +
-            "from contact " +
-            "order by name asc ", nativeQuery = true)
+                    "from contact " +
+                    "order by name asc", nativeQuery = true)
     List<Contact> findContactsSortByName();
 
     //@Query(value="SQL 문법 :매개변수", nativeQuery = true)
     @Query(value = "select * " +
-            "from contact " +
-            "where email = :email ", nativeQuery = true)
+                    "from contact " +
+                    "where email = :email", nativeQuery = true)
     Optional<Contact> findContactByEmail(String email);
 }
