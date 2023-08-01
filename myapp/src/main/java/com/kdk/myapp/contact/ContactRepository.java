@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 // JpaRepository<Contact, String>
@@ -18,5 +19,5 @@ public interface ContactRepository extends JpaRepository<Contact, String> {
     @Query(value = "select * " +
             "from contact " +
             "where email = :email ", nativeQuery = true)
-    Contact findContactByEmail(String email);
+    Optional<Contact> findContactByEmail(String email);
 }

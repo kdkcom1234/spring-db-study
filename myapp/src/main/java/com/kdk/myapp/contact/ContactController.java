@@ -151,8 +151,15 @@ public class B {
 
         // repo.findById(PK값);
         // Optional은 null이 될 수 없음.
+        
+        // JPA Repository 기본 메서드 사용
+//        Optional<Contact> savedContact =
+//                repo.findById(contact.getEmail());
+
+        // Native Query를 이용하여 사용
         Optional<Contact> savedContact =
-                repo.findById(contact.getEmail());
+                repo.findContactByEmail(contact.getEmail());
+        
         // 레코드가 존재하는지 여부..
         if(savedContact.isPresent()) {
             Map<String, Object> res = new HashMap<>();
@@ -178,8 +185,14 @@ public class B {
         // 해당 키(key)의 데이터가 없으면
 //        if(map.get(email) == null) {
 
+
         // PK값으로 레코드로 1건 조회해서 없으면
-        if(!repo.findById(email).isPresent()){
+
+        // JPA Repository 기본 메서드 사용
+//        if(!repo.findById(email).isPresent()){
+
+        // Native Query를 이용하여 사용
+        if(!repo.findContactByEmail(email).isPresent()){
             // 404: NOT FOUND, 해당 경로에 리소스가 없다.
             // DELETE /contacts/kdkcom@naver.com
             // Response Status Code : 404
@@ -191,10 +204,5 @@ public class B {
         // 레코드(리소스-데이터베이스의파일일부분) 삭제
         repo.deleteById(email);
         return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @GetMapping(value = "/{email}")
-    public Contact getContact(@PathVariable String email) {
-        return repo.findContactByEmail(email);
     }
 }
