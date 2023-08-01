@@ -143,27 +143,9 @@ public class B {
         // 생성된 객체를 반환
         Contact savedContact = repo.save(contact);
 
-//        // 응답 객체 생성
-//        // 실제로 생성된 객체를 응답
-//        Map<String, Object> res = new HashMap<>();
-//        res.put("data", map.get(contact.getEmail()));
-//        res.put("message", "created");
-
         // 응답 객체 생성(ResponseEntity)
         // 상태코드, 데이터, 메시지
         // 실제로 생성된 레코드(row)를 응답
-
-        // repo.findById(PK값);
-        // Optional은 null이 될 수 없음.
-        
-        // JPA Repository 기본 메서드 사용
-//        Optional<Contact> savedContact =
-//                repo.findById(contact.getEmail());
-
-        // Native Query를 이용하여 사용
-//        Optional<Contact> savedContact =
-//                repo.findContactByEmail(contact.getEmail());
-        
         // 생성된 레코드가 존재하는지 여부..
         if(savedContact != null) {
             Map<String, Object> res = new HashMap<>();
