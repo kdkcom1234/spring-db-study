@@ -122,10 +122,15 @@ public class B {
         // 이메일 중복 검증
         // 409: conflict
 
-        // Native query를 사용
-        if(contact.getEmail()!= null && repo.findContactByEmail(contact.getEmail()).isPresent()) {
-        // JPA Repository의 기본 인터페이스 메서드를 사용
+//         JPA Query creation을 사용
+        if(contact.getEmail()!= null && repo.findByEmail(contact.getEmail()).isPresent()) {
+
+//         Native query를 사용
+//        if(contact.getEmail()!= null && repo.findContactByEmail(contact.getEmail()).isPresent()) {
+
+//         JPA Repository의 기본 인터페이스 메서드를 사용
 //        if(contact.getEmail() != null && repo.findById(contact.getEmail()).isPresent()) {
+
             // 맵에 해당 이메일이 있음
             // 이미 있는 데이터를 클라이언트(브라우저) 보냈거나
             // 클라이언트에서 중복 데이터를 보냈거나..
@@ -177,11 +182,14 @@ public class B {
 
         // PK값으로 레코드로 1건 조회해서 없으면
 
-        // JPA Repository 기본 메서드 사용
+//         JPA Repository 기본 메서드 사용
 //        if(!repo.findById(email).isPresent()){
 
-        // Native Query를 이용하여 사용
-        if(!repo.findContactByEmail(email).isPresent()){
+//         Native Query를 이용하여 사용
+//        if(!repo.findContactByEmail(email).isPresent()){
+
+//          Query Creation을 이용하여 사용
+        if(!repo.findByEmail(email).isPresent()){
             // 404: NOT FOUND, 해당 경로에 리소스가 없다.
             // DELETE /contacts/kdkcom@naver.com
             // Response Status Code : 404
