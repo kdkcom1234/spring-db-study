@@ -33,6 +33,7 @@ public interface ContactRepository extends JpaRepository<Contact, String> {
 
     // Query Creation
     // https://docs.spring.io/spring-data/jpa/docs/1.6.0.RELEASE/reference/html/jpa.repositories.html
+    // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#appendix.query.method.subject
 
     // 실행되는 쿼리: "select * from contact order by name asc"
     List<Contact> findAllByOrderByName();

@@ -5,8 +5,20 @@ CREATE TABLE `contact` (
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- 
+/*
+  `email` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+--
+더미데이터 30건만 만들어줘, SQL insert문으로
+*/
 -- batch insert
-INSERT INTO your_table_name (email, name, phone) 
+truncate table contact;
+
+select * from contact;
+
+INSERT INTO contact (email, name, phone) 
 VALUES
   ('email1@example.com', 'Name1', '010-1111-1111'),
   ('email2@example.com', 'Name2', '010-2222-2222'),
@@ -38,3 +50,36 @@ VALUES
   ('email28@example.com', 'Name28', '010-2828-2828'),
   ('email29@example.com', 'Name29', '010-2929-2929'),
   ('email30@example.com', 'Name30', '010-3030-3030');
+
+-- clustered index 기준 역정렬
+SELECT * FROM contact ORDER BY email DESC;
+
+-- 데이터 조회건수를 제한
+-- LIMIT 건수
+select * from contact 
+order by email desc
+limit 20;
+-- OFFSET 건수만큼 건너띄기(skip)
+select * from contact 
+order by email desc
+limit 10 offset 20;
+-- 총데이터 건수 조회
+-- count(인덱스), *로하면 clustered index의 값 개수만큼을 조회함
+select count(*) from contact;
+
+-- 조건 검색(equal), =
+select * from contact where name = 'Name9';
+select count(*) from contact where name = 'Name9';
+
+-- 조건 검색(contain), LIKE
+-- 전체 데이터를 다 뒤져야함.
+select * from contact where name like '%이%';
+-- 조건과 일치하는 5개만 조회한 후 종료
+select * from contact 
+where name like '%Name1%' limit 5;
+-- 특정키워드로 시작하는 검색
+-- '이'로 시작하는 이름은 몇명일까?
+select * from contact where name like 'Name1%';
+select * from contact where name like '이%';
+
+-- key range 탐색, or 검색
