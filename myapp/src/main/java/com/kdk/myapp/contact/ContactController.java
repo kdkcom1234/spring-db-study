@@ -87,6 +87,51 @@ public class B {
         return list;
     }
 
+    // GET /contacts/paging?page=0&size=10
+    // query-string으로 받을 것임
+    // ?키=값&키=값....
+    // @RequestParam
+    // quer-string 값을 매개변수 받는 어노테이션
+    @GetMapping(value = "/paging")
+    public Page<Contact> getContactsPaging
+        (@RequestParam int page, @RequestParam int size) {
+        System.out.println(page);
+        System.out.println(size);
+
+        // 기본적으로 key 정렬(default)
+        // 정렬 설정 없이 간다.
+        // SQL: ORDER BY email DESC
+        // 정렬 매개변수 객체
+        Sort sort = Sort.by("email").descending();
+        // 페이지 매개변수 객체
+        // SQL: OFFSET page * size LIMIT size
+        // OFFSET: 어떤 기준점에 대한 거리
+        // OFFSET 10: 10번째까지 이후
+        // LIMT 10: 10건의 레코드
+        // LIMIT 10 OFFSET 10: 앞으로 10건을 건너뛰고 다음 10건을 조회
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+
+        return repo.findAll(pageRequest);
+    }
+
+    // GET /contacts/paging/searchByName?page=0&size=10&name=hong
+    @GetMapping(value = "/paging/searchByName")
+    public Page<Contact> getContactsPagingSearch
+            (@RequestParam int page,
+             @RequestParam int size,
+             @RequestParam String name) {
+        System.out.println(page);
+        System.out.println(size);
+        System.out.println(name);
+
+        // 기본적으로 key 정렬(default)
+        Sort sort = Sort.by("email").descending();
+        // 페이지 매개변수 객체
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+
+        return repo.findByNameContaining(name, pageRequest);
+    }
+
     // HTTP 1.1 POST /contacts
     @PostMapping
     public ResponseEntity<Map<String, Object>> addContact(@RequestBody Contact contact) {

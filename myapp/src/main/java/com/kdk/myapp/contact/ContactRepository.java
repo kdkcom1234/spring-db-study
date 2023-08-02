@@ -1,5 +1,8 @@
 package com.kdk.myapp.contact;
 
+//import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -35,4 +38,25 @@ public interface ContactRepository extends JpaRepository<Contact, String> {
     List<Contact> findAllByOrderByName();
     // 실행되는 쿼리: "select * from contact where email = :email"
     Optional<Contact> findByEmail(String email);
+
+    // Spring Data Query Creation
+    // 메서드 시그니처(이름, 매개변수개수/타입)에 맞게 SQL문을 생성해줌
+    /* SELECT * FROM contact WHERE name = :name
+        ORDER BY :sort
+        LIMIT :size
+        OFFSET :size * :page
+
+        -- 반환 타입이 Page가 아니면 count()는 안 함
+        SELECT count(*) FROM contact WHERE name = :name
+     */
+    Page<Contact> findByName(String name, Pageable page);
+    /* SELECT * FROM contact WHERE name LIKE '%:name%'
+    ORDER BY :sort
+    LIMIT :size
+    OFFSET :size * :page
+
+    -- 반환 타입이 Page가 아니면 count()는 안 함
+    SELECT count(*) FROM contact WHERE name LIKE '%:name%'
+ */
+    Page<Contact> findByNameContaining(String name, Pageable page);
 }
