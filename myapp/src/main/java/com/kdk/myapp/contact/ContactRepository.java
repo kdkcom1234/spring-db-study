@@ -60,4 +60,7 @@ public interface ContactRepository extends JpaRepository<Contact, String> {
     SELECT count(*) FROM contact WHERE name LIKE '%:name%'
  */
     Page<Contact> findByNameContaining(String name, Pageable page);
+
+    Page<Contact> findByNameContainsOrPhoneContains
+            (String name, String phone, Pageable pageable);
 }

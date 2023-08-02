@@ -82,4 +82,16 @@ where name like '%Name1%' limit 5;
 select * from contact where name like 'Name1%';
 select * from contact where name like '이%';
 
--- key range 탐색, or 검색
+select * from contact where name like '%name1%';
+
+-- key range 탐색
+-- PK기준으로 현재 페이지의 마지막 PK 저장하고,
+-- 마지막 PK 기준으로 LIMIT만 처리함
+
+-- OR 검색
+-- OR(조건중 1개만 성립해도 나옴), AND(모든 조건 만족), NOT
+select c1_0.email,c1_0.image,c1_0.name,c1_0.phone 
+from contact c1_0 
+where c1_0.name like ? escape '\\' 
+		or c1_0.phone like ? escape '\\' 
+order by c1_0.email desc limit ?,?

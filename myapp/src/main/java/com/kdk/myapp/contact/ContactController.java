@@ -116,7 +116,7 @@ public class B {
 
     // GET /contacts/paging/searchByName?page=0&size=10&name=hong
     @GetMapping(value = "/paging/searchByName")
-    public Page<Contact> getContactsPagingSearch
+    public Page<Contact> getContactsPagingSearchName
             (@RequestParam int page,
              @RequestParam int size,
              @RequestParam String name) {
@@ -126,10 +126,30 @@ public class B {
 
         // 기본적으로 key 정렬(default)
         Sort sort = Sort.by("email").descending();
+
         // 페이지 매개변수 객체
         PageRequest pageRequest = PageRequest.of(page, size, sort);
 
         return repo.findByNameContaining(name, pageRequest);
+    }
+
+    @GetMapping(value = "/paging/search")
+    public Page<Contact> getContactsPagingSearch
+            (@RequestParam int page,
+             @RequestParam int size,
+             @RequestParam String query) {
+        System.out.println(page);
+        System.out.println(size);
+        System.out.println(query);
+
+        // 기본적으로 key 정렬(default)
+        Sort sort = Sort.by("email").descending();
+
+        // 페이지 매개변수 객체
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+
+        return repo.findByNameContainsOrPhoneContains
+                        (query, query, pageRequest);
     }
 
     // HTTP 1.1 POST /contacts
