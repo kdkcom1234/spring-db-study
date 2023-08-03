@@ -38,31 +38,30 @@ public class AuthService {
 
     @Transactional
     public long createIdentity(SignupRequest req) {
+        HashUtil util = new HashUtil();
 
+        // 1. login 정보를 insert
         Login toSaveLogin =
             Login.builder()
                 .username(req.getUsername())
-                .password(req.getPassword())
+                .password(util.createHash(req.getPassword()))
                 .build();
-
-        // login 정보를 insert
         Login savedLogin = repo.save(toSaveLogin);
 
+        // 2. profile 정보를 insert(login_id포함)하고 레코드의 id값을 가져옴;
         Profile toSaveProfile =
                 Profile.builder()
                         .nickname(req.getNickname())
-//                        .nickname(null)
                         .email(req.getEmail())
                         .login(savedLogin)
                         .build();
-
-        // profile 정보를 insert하고 레코드의 id값을 가져옴;
         long profileId = profileRepo.save(toSaveProfile).getId();
 
-        // 로그인 정보에는 profile_id값만 저장
+        // 3. 로그인 정보에는 profile_id값만 저장
         savedLogin.setProfileId(profileId);
         repo.save(savedLogin);
 
+        // 4. profile_id를 반환
         return profileId;
     }
 }

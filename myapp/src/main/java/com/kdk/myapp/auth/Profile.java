@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Check;
 
 @Data
 @NoArgsConstructor
@@ -22,5 +23,6 @@ public class Profile  {
 
     // 관계 맵핑
     @OneToOne
+    //    profile_id 컬럼이 FK로 생성됨
     private Login login;
 }
