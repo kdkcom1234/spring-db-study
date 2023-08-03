@@ -27,22 +27,23 @@
 -- add constraint FKe0ght7n5cjx8tnheha9mpn8l3 
 -- foreign key (profile_id) references profile (id);
 
-
-INSERT INTO profile (email, nickname)
+truncate table profile;
+INSERT INTO profile (email, nickname, login_id)
 VALUES
-    ('email1@example.com', 'nickname1'),
-    ('email2@example.com', 'nickname2'),
-    ('email3@example.com', 'nickname3'),
-    ('email4@example.com', 'nickname4'),
-    ('email5@example.com', 'nickname5'),
-    ('email6@example.com', 'nickname6'),
-    ('email7@example.com', 'nickname7'),
-    ('email8@example.com', 'nickname8'),
-    ('email9@example.com', 'nickname9'),
-    ('email10@example.com', 'nickname10');
+    ('email1@example.com', 'nickname1', 1),
+    ('email2@example.com', 'nickname2', 2),
+    ('email3@example.com', 'nickname3', 3),
+    ('email4@example.com', 'nickname4', 4),
+    ('email5@example.com', 'nickname5', 5),
+    ('email6@example.com', 'nickname6', 6),
+    ('email7@example.com', 'nickname7', 7),
+    ('email8@example.com', 'nickname8', 8),
+    ('email9@example.com', 'nickname9', 9),
+    ('email10@example.com', 'nickname10', 10);
     
 select * from profile;
 
+truncate table login;
 INSERT INTO login (password, username, profile_id)
 VALUES
     ('$2y$12$1nqam6QOz/uP/cI6CXLGc.CA1WB/cwhhAbCzETV.qGY29dLsL8tT2', 'username1', 1),
@@ -57,6 +58,7 @@ VALUES
     ('$2y$12$3PDBYSsPd7hE9spMxT5nNuNpQKJAzNrCKI6li3J82dmwAfuOrvdwe', 'username10', 10);
     
 select * from login;
+select * from profile;
 
 -- ----ㅌ (1:M), one-to-many
 -- -----  (1:1), one-to-one
