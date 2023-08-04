@@ -1,4 +1,4 @@
-package com.kdk.myapp.auth;
+package com.kdk.myapp.auth.request;
 
 import jakarta.persistence.Column;
 import lombok.Data;
