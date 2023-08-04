@@ -7,8 +7,10 @@ import java.util.Date;
 
 public class JwtUtil {
 
-    // 임의의 서명 값
+    // 임의의 서명 값 - 키파일 등을 읽어서 처리가능
     public String secret = "your-secret";
+    // ms 단위
+    public final long TOKEN_TIMEOUT = 1000 * 60 * 60 * 24 * 7;
 
     // JWT 토큰 생성
     public String createToken(long id, String username, String nickname) {
@@ -18,7 +20,7 @@ public class JwtUtil {
         // 길게: 7일~30일
         // 보통: 1시간~3시간
         // 짧게: 5분~15분
-        Date exp = new Date(now.getTime() + 1000 * 60 * 60 * 7);
+        Date exp = new Date(now.getTime() + TOKEN_TIMEOUT);
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.create()
