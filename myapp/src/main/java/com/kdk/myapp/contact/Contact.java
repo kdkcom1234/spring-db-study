@@ -50,4 +50,7 @@ public class Contact {
     @Column(length = 1024 * 1024 * 20) // MySQL에서는 longtext로 바뀜
     // 파일을 base64 data-url 문자열로 저장
     private String image;
+
+    // 연락처 소유자 id(프로필id)
+    private long ownerId;
 }

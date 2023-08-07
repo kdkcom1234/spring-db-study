@@ -63,4 +63,10 @@ public interface ContactRepository extends JpaRepository<Contact, String> {
 
     Page<Contact> findByNameContainsOrPhoneContains
             (String name, String phone, Pageable pageable);
+
+    // select * from contact where owner_id = :ownerId;
+    // select count(*) from contact where owner_id = :ownerId;
+    Page<Contact> findByOwnerId(long ownerId, Pageable pageable);
+
+
 }
