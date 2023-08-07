@@ -189,15 +189,21 @@ public class B {
 
         // 이메일 중복 검증
         // 409: conflict
+        ;
 
 //         JPA Query creation을 사용
-        if(contact.getEmail()!= null && repo.findByEmail(contact.getEmail()).isPresent()) {
+//        if(contact.getEmail()!= null && repo.findByEmail(contact.getEmail()).isPresent()) {
 
 //         Native query를 사용
 //        if(contact.getEmail()!= null && repo.findContactByEmail(contact.getEmail()).isPresent()) {
 
 //         JPA Repository의 기본 인터페이스 메서드를 사용
-//        if(contact.getEmail() != null && repo.findById(contact.getEmail()).isPresent()) {
+
+        // 해당 사용자의 해당 이메일 연락처 있는지를 확인
+        if(contact.getEmail() != null &&
+                repo.findById(
+                new ContactId(authProfile.getId(), contact.getEmail()))
+                        .isPresent()) {
 
             // 맵에 해당 이메일이 있음
             // 이미 있는 데이터를 클라이언트(브라우저) 보냈거나
@@ -240,9 +246,12 @@ public class B {
 //    DELETE /contacts/{email}
 //           : Path(경로)Variable(변수)
 //    DELETE /contacts/kdkcom@naver.com
+    @Auth
     @DeleteMapping(value = "/{email}")
     // @PathVariable("email") : 경로 문자열{email}과 변수명 String email이 동일하면 안 써도 된다.
-    public ResponseEntity removeContact(@PathVariable String email) {
+    public ResponseEntity removeContact(
+            @PathVariable String email,
+            @RequestAttribute AuthProfile authProfile) {
         System.out.println(email);
 
         // 해당 키(key)의 데이터가 없으면
@@ -253,22 +262,28 @@ public class B {
 
 //         JPA Repository 기본 메서드 사용
 //        if(!repo.findById(email).isPresent()){
-
 //         Native Query를 이용하여 사용
 //        if(!repo.findContactByEmail(email).isPresent()){
-
 //          Query Creation을 이용하여 사용
-        if(!repo.findByEmail(email).isPresent()){
+//        if(!repo.findByEmail(email).isPresent()){
+
+        Optional<Contact> contact = repo.findById(new ContactId(authProfile.getId(), email));
+        if(!contact.isPresent()){
             // 404: NOT FOUND, 해당 경로에 리소스가 없다.
             // DELETE /contacts/kdkcom@naver.com
             // Response Status Code : 404
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-//        // 객체(리소스-서버의램) 삭제
-//        map.remove(email);
+        // 해당 연락처의 소유자와 삭제를 요청한 사람의 소유자가 일치하는 확인
+        if(contact.get().getOwnerId() != authProfile.getId()) {
+            // 403: Forbidden, 해당 리소스의 권한이 없다(금지됐다)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         // 레코드(리소스-데이터베이스의파일일부분) 삭제
-        repo.deleteById(email);
+        repo.deleteById(new ContactId(authProfile.getId(), email));
+
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -286,12 +301,14 @@ public class B {
     @PutMapping(value = "/{email}")
     public ResponseEntity modifyContact
             (@PathVariable String email,
-             @RequestBody ContactModifyRequest contact) {
+             @RequestBody ContactModifyRequest contact,
+             @RequestAttribute AuthProfile authProfile) {
         System.out.println(email);
         System.out.println(contact);
         
         // 1. 키값으로 조회해옴
-        Optional<Contact> findedContact = repo.findById(email);
+        Optional<Contact> findedContact =
+                repo.findById(new ContactId(authProfile.getId(),email));
         
         // 2. 해당 레코드가 있는지 확인
         if(!findedContact.isPresent()){
