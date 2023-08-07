@@ -23,7 +23,10 @@ public class Post {
     private long no;
     private String title;
     private String content;
+    // 게시글을 작성 사용자의 nickname
     private String creatorName;
+    // 게시글을 작성한 사용자의 Id
+    private long creatorId;
 
     // created_time bigint not null,
     // primitive type: int, char, long, double

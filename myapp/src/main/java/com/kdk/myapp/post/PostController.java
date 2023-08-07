@@ -98,6 +98,8 @@ public class PostController {
 
 //     3. 번호(no), 시간값(createdTime) 게시자이름(creatorName) 요청 객체에 설정
         post.setCreatorName("Dodo");
+//        post.setCreatorName(authProfile.getNickname());
+//        post.setCreatorId(authProfile.getId());
         post.setCreatedTime(new Date().getTime());
 
 //     4. 맵에 추가
