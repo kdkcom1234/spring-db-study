@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
+
+import java.util.Set;
 
 @Data
 @Builder
@@ -61,4 +64,12 @@ public class Contact {
     @Column(length = 1024 * 1024 * 20) // MySQL에서는 longtext로 바뀜
     // 파일을 base64 data-url 문자열로 저장
     private String image;
+
+    //
+    // activity 추가/삭제 시에 증감 처리
+    private long activityCnt;
+
+    // 가장 최근 활동
+    // activity 추가/삭제 시에 증감 처리
+    private String latestActivityContent;
 }

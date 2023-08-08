@@ -1,9 +1,6 @@
 package com.kdk.myapp.post;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +18,9 @@ public class Post {
     // 1, 2, 3 ....
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long no;
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String content;
     // 게시글을 작성 사용자의 nickname
     private String creatorName;
@@ -35,5 +34,10 @@ public class Post {
 //    private long createdTime;
     // 데이터베이스에 NULL을 넣고 싶으면 Class 타입을 써야함
     private Long createdTime;
+    
+    // 댓글 수
+    private long commentCnt;
+    // 최근 댓글 내용
+    private String latestComment;
 }
 
