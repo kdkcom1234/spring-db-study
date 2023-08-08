@@ -26,6 +26,8 @@ public class PostController {
     LoginRepository logRepo;
     @Autowired
     PostCommentRepository commentRepo;
+    @Autowired
+    PostService service;
 
 
     @GetMapping
@@ -163,6 +165,7 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
+    // 하위객체(테이블) 추가하기
     // POST /posts/{no}/comments
     @Auth
     @PostMapping("/{no}/comments")
@@ -171,16 +174,25 @@ public class PostController {
             @RequestBody PostComment postComment,
             @RequestAttribute AuthProfile authProfile) {
 
-        // postComment
-        // 상위 객체(테이블)의 key값이 같이 와야함
-        // {content:"덧글입니다.",  post: {no: 1}}
+        Optional<Post> post = repo.findById(no);
+        if(!post.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
 
+        // 커멘트 추가
+        postComment.setPost(post.get());
         postComment.setOwnerId(authProfile.getId());
         postComment.setOwnerName(authProfile.getNickname());
 
-        commentRepo.save(postComment);
+        // 커멘트 건수 증가 및 최근 커멘트 표시
+        Post findedPost = post.get();
+        findedPost.setLatestComment(postComment.getContent());
+        findedPost.setCommentCnt(post.get().getCommentCnt() + 1);
 
-        return ResponseEntity.ok().build();
+        // 트랜잭션 처리
+        service.createComment(findedPost, postComment);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 
