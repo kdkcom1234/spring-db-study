@@ -28,6 +28,8 @@ public class PostController {
     PostCommentRepository commentRepo;
     @Autowired
     PostService service;
+    @Autowired
+    PostRepositorySupport repoSupport;
 
 
     @GetMapping
@@ -65,13 +67,14 @@ public class PostController {
     @GetMapping(value = "/paging/search")
     public Page<Post> getPostsPagingSearch
     (@RequestParam int page, @RequestParam int size, @RequestParam String query) {
-        System.out.println(page + "3");
-        System.out.println(size + "3");
-        System.out.println(query + "3");
-
         Sort sort = Sort.by("no").descending();
         PageRequest pageRequest = PageRequest.of(page, size, sort);
-        return repo.findByCreatorNameContainsOrContentContains(query, query, pageRequest);
+
+        // JPA query creation
+//        return repo.findByCreatorNameContainsOrContentContains(query, query, pageRequest);
+
+        // QueryDSL
+        return repoSupport.searchPaging(query, pageRequest);
     }
 
     //title, content 필수 속성
