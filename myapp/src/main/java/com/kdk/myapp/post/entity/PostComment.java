@@ -1,4 +1,4 @@
-package com.kdk.myapp.post;
+package com.kdk.myapp.post.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

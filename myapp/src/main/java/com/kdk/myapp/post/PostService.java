@@ -1,13 +1,12 @@
 package com.kdk.myapp.post;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
+import com.kdk.myapp.post.entity.Post;
+import com.kdk.myapp.post.entity.PostComment;
+import com.kdk.myapp.post.repository.PostCommentRepository;
+import com.kdk.myapp.post.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-
-import java.util.function.Supplier;
 
 @Service
 public class PostService {

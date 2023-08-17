@@ -1,5 +1,6 @@
-package com.kdk.myapp.post;
+package com.kdk.myapp.post.repository;
 
+import com.kdk.myapp.post.entity.Post;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
