@@ -7,7 +7,6 @@ import com.kdk.myapp.post.entity.Post;
 import com.kdk.myapp.post.entity.PostComment;
 import com.kdk.myapp.post.repository.PostCommentRepository;
 import com.kdk.myapp.post.repository.PostRepository;
-import com.kdk.myapp.post.repository.PostRepositorySupport;
 import com.kdk.myapp.post.request.PostModifyRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,8 +32,6 @@ public class PostController {
     PostCommentRepository commentRepo;
     @Autowired
     PostService service;
-    @Autowired
-    PostRepositorySupport repoSupport;
 
 
     @GetMapping
@@ -69,18 +66,18 @@ public class PostController {
 //        PageRequest pageRequest = PageRequest.of(page, size, sort);
 //        return  repo.findByCreatorNameContains(query, pageRequest);
 //    }
-    @GetMapping(value = "/paging/search")
-    public Page<Post> getPostsPagingSearch
-    (@RequestParam int page, @RequestParam int size, @RequestParam String query) {
-        Sort sort = Sort.by("no").descending();
-        PageRequest pageRequest = PageRequest.of(page, size, sort);
-
-        // JPA query creation
-//        return repo.findByCreatorNameContainsOrContentContains(query, query, pageRequest);
-
-        // QueryDSL
-        return repoSupport.searchPaging(query, pageRequest);
-    }
+//    @GetMapping(value = "/paging/search")
+//    public Page<Post> getPostsPagingSearch
+//    (@RequestParam int page, @RequestParam int size, @RequestParam String query) {
+//        Sort sort = Sort.by("no").descending();
+//        PageRequest pageRequest = PageRequest.of(page, size, sort);
+//
+//        // JPA query creation
+////        return repo.findByCreatorNameContainsOrContentContains(query, query, pageRequest);
+//
+//        // QueryDSL
+//        return repoSupport.searchPaging(query, pageRequest);
+//    }
 
     //title, content 필수 속성
     @Auth
@@ -202,6 +199,4 @@ public class PostController {
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
-
 }

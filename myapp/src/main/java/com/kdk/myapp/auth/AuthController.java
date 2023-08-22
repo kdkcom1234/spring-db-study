@@ -88,10 +88,16 @@ public class AuthController {
         Optional<Login> login = repo.findByUsername(username);
         // username에 매칭이 되는 레코드가 없는 상태
         if(!login.isPresent()) {
+            return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .location(ServletUriComponentsBuilder
+                            .fromHttpUrl("http://localhost:5500/login.html?err=Unauthorized")
+                            .build().toUri())
+                    .build();
             // 401 Unauthorized
             // 클라이언트에서 대충 뭉뜨그려서 [인증정보가 잘못되었습니다.]
             // [사용자이름 또는 패스워드가 잘못되었습니다.]
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         //   1.2 password+salt -> 해시 -> secret 일치여부 확인
@@ -101,7 +107,13 @@ public class AuthController {
 //        System.out.println("verified: " + isVerified);
 
         if(!isVerified) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .location(ServletUriComponentsBuilder
+                            .fromHttpUrl("http://localhost:5500/login.html?err=Unauthorized")
+                            .build().toUri())
+                    .build();
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         Login l = login.get();
@@ -109,8 +121,14 @@ public class AuthController {
         Optional<Profile> profile = profileRepo.findByLogin_Id(l.getId());
         // 로그인정보와 프로필 정보가 제대로 연결 안됨.
         if(!profile.isPresent()) {
+            return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .location(ServletUriComponentsBuilder
+                            .fromHttpUrl("http://localhost:5500?err=Conflict")
+                            .build().toUri())
+                    .build();
             // 409 conflict: 데이터 현재 상태가 안 맞음
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+//            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
         String token = jwt.createToken(
