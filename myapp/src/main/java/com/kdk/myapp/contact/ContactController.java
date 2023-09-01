@@ -2,6 +2,9 @@ package com.kdk.myapp.contact;
 
 import com.kdk.myapp.auth.Auth;
 import com.kdk.myapp.auth.AuthProfile;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.repository.query.FluentQuery;
@@ -13,6 +16,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
+@Tag(name="연락처 관리 처리 API")
 @RestController
 @RequestMapping(value = "/contacts")
 public class ContactController {
@@ -94,6 +98,7 @@ public class B {
     // ?키=값&키=값....
     // @RequestParam
     // quer-string 값을 매개변수 받는 어노테이션
+    @Operation(summary = "연락처 목록 페이징 조회", security = { @SecurityRequirement(name = "bearer-key") })
     @Auth
     @GetMapping(value = "/paging")
     public Page<Contact> getContactsPaging
