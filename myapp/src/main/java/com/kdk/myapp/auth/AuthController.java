@@ -9,7 +9,10 @@ import com.kdk.myapp.auth.util.HashUtil;
 import com.kdk.myapp.auth.util.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +41,15 @@ public class AuthController {
 
     @Autowired
     private JwtUtil jwt;
+
+    @Value("${app.cookie.domain}")
+    private String cookieDomain;
+
+    @Value("${app.login.url}")
+    private String loginUrl;
+
+    @Value("${app.home.url}")
+    private String homeUrl;
 
 //    @GetMapping(value = "/logins")
 //    public List<Login> getLogins() {
@@ -91,7 +103,7 @@ public class AuthController {
             return ResponseEntity
                     .status(HttpStatus.FOUND)
                     .location(ServletUriComponentsBuilder
-                            .fromHttpUrl("http://localhost:5500/login.html?err=Unauthorized")
+                            .fromHttpUrl(loginUrl + "?err=Unauthorized")
                             .build().toUri())
                     .build();
             // 401 Unauthorized
@@ -110,7 +122,7 @@ public class AuthController {
             return ResponseEntity
                     .status(HttpStatus.FOUND)
                     .location(ServletUriComponentsBuilder
-                            .fromHttpUrl("http://localhost:5500/login.html?err=Unauthorized")
+                            .fromHttpUrl(loginUrl + "?err=Unauthorized")
                             .build().toUri())
                     .build();
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -124,7 +136,7 @@ public class AuthController {
             return ResponseEntity
                     .status(HttpStatus.FOUND)
                     .location(ServletUriComponentsBuilder
-                            .fromHttpUrl("http://localhost:5500?err=Conflict")
+                            .fromHttpUrl(loginUrl + "?err=Conflict")
                             .build().toUri())
                     .build();
             // 409 conflict: 데이터 현재 상태가 안 맞음
@@ -140,7 +152,7 @@ public class AuthController {
         Cookie cookie = new Cookie("token", token);
         cookie.setPath("/");
         cookie.setMaxAge((int) (jwt.TOKEN_TIMEOUT / 1000L)); // 만료시간
-        cookie.setDomain("localhost"); // 쿠키를 사용할 수 있 도메인
+        cookie.setDomain(cookieDomain); // 쿠키를 사용할 수 있 도메인
 
         // 응답헤더에 쿠키 추가
         res.addCookie(cookie);
@@ -149,7 +161,7 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .location(ServletUriComponentsBuilder
-                        .fromHttpUrl("http://localhost:5500")
+                        .fromHttpUrl(homeUrl)
                         .build().toUri())
                 .build();
     }

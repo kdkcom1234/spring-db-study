@@ -29,7 +29,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addMapping("/**") // 모든 경로에 대해
                 .allowedOrigins(
                         "http://localhost:5500",
-                        "http://127.0.0.1:5500") // 로컬 호스트 origin 허용
+                        "http://127.0.0.1:5500",
+                        "https://d2biz7e3hafxh5.cloudfront.net",
+                        "http://ec2-52-79-101-98.ap-northeast-2.compute.amazonaws.com") // 로컬 호스트 origin 허용
                 .allowedMethods("*"); // 모든 메서드 허용(GET, POST.....)
     }
 
