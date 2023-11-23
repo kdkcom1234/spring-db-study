@@ -18,7 +18,7 @@ import java.util.function.Function;
 
 @Tag(name="연락처 관리 처리 API")
 @RestController
-@RequestMapping(value = "/contacts")
+@RequestMapping(value = "/api/contacts")
 public class ContactController {
     // 싱글턴: 첫 실행시점 객체가 1번 생성됨. 이후 부터는 생성된 객체를 재사용
     // static: JVM 실행 시점에 객체를 생성

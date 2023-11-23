@@ -21,7 +21,7 @@ import java.util.*;
 
 
 @RestController
-@RequestMapping(value = "/posts")
+@RequestMapping(value = "/api/posts")
 public class PostController {
 
     @Autowired
@@ -36,6 +36,7 @@ public class PostController {
 
     @GetMapping
     public List<Post> getPostList() {
+        System.out.println("--get posts--");
 
         //JPA 사용
 //        List<Post> list = repo.findAll(Sort.by("no").ascending());

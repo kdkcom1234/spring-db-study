@@ -35,7 +35,7 @@ import java.util.List;
 // 컨트롤러에 RequestMapping을 사용하여
 // value 경로의 요청을 컨트롤러 내부의 메서드로 실행
 // GET .../accounts -> AccountController -> method(GET요청을 처리할 메서드)
-@RequestMapping(value = "/accounts")
+@RequestMapping(value = "/api/accounts")
 public class AccountController {
     List<Account> list = new ArrayList<>();
 
